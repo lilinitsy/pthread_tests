@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
-#include <pthread.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include <stdexcept>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -42,29 +42,29 @@ struct Client
 
 Client client;
 
-void *receive_packets(void*)
+void *receive_packets(void *)
 {
 	char servbuf[8];
 	uint32_t num_bytes = 8;
-	size_t servbufidx = 0;
+	size_t servbufidx  = 0;
 	do
 	{
 		size_t server_read = read(client.socket_fd, &servbuf[servbufidx], num_bytes);
 		servbufidx += server_read;
 		send(client.socket_fd, "fu", 2, 0);
-	} while (servbufidx < num_bytes);
-	
+	} while(servbufidx < num_bytes);
 
-	return (void*) servbuf;
+
+	return (void *) servbuf;
 }
 
 void *average_inputnums(void *inputnums)
 {
-	long *numbers = (long*) inputnums;
+	long *numbers = (long *) inputnums;
 
 	long avg = (numbers[0] + numbers[1] + numbers[2] + numbers[3]) / 4;
 
-	return (void*) avg;
+	return (void *) avg;
 }
 
 int main()
@@ -89,7 +89,7 @@ int main()
 	int average_thread_Create = pthread_create(&work_thread, nullptr, average_inputnums, (void *) inputnums);
 	std::cout << "Created numavg thread" << std::endl;
 
-	pthread_join(network_thread, (void**) servbuf);
+	pthread_join(network_thread, (void **) servbuf);
 	std::cout << "Joined network thread" << std::endl;
 	pthread_join(work_thread, &avgnum);
 	std::cout << "Joined avgnum work thread" << std::endl;

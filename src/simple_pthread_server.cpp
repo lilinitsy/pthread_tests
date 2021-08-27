@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <iostream>
-#include <pthread.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include <stdexcept>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -55,7 +55,7 @@ int main()
 	server.connect_to_client(PORT);
 
 	const char *bufdata = "12345678";
-	size_t numbytes = 8;
+	size_t numbytes		= 8;
 	send(server.client_fd, bufdata, numbytes, 0);
 
 	size_t recidx = 0;
@@ -65,7 +65,7 @@ int main()
 		size_t client_read = read(server.client_fd, &recbuf[recidx], 2);
 		recidx += client_read;
 	} while(recidx < 2);
-	
+
 
 	return 0;
 }
